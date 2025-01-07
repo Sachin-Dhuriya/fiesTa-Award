@@ -7,6 +7,8 @@ const path = require("path")
 app.set("view engine", "ejs");
 app.set("views",path.join(__dirname,"../views"))
 app.use(express.static(path.join(__dirname,"../public")))
+//app.set('layout', 'layouts/boilerplate'); //deep 
+
 //--------------------------------Requiring MongooseDB------------------------------------
 const EmployeeData = require("../DB_Models/db.js")
 //--------------------------------Data Parse------------------------------------
@@ -23,10 +25,9 @@ app.listen(port, ()=>{
 
 //--------------------------------Routing------------------------------------
 
-app.get("/",(req,res)=>{
-    res.render("./routes/home.ejs")
-})
-
+app.get('/', (req, res) => {
+    res.render("routes/home.ejs");
+});
 
 
 
