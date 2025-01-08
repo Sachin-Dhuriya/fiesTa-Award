@@ -7,7 +7,7 @@ async function  main(){
 
 main().then(()=>{console.log("Connection Successfull.....");}).catch(()=>{console.log("Error Occured during connection");})
 
-const EmployeeData = require("./db.js")
+const EmployeeData = require("./db.js") //JuryData
 
 //Sample Data
 const sampleData = [

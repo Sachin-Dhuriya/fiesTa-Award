@@ -6,7 +6,7 @@ async function  main(){
 
 main().then(()=>{console.log("Connection Successfull.....");}).catch(()=>{console.log("Error Occured during connection");})
 
-const employeeSchema = new mongoose.Schema({ //jurySchema
+const jurySchema = new mongoose.Schema({
     name : {
         type : String,
         required : true,
@@ -17,40 +17,31 @@ const employeeSchema = new mongoose.Schema({ //jurySchema
         required : true,
         trim: true,
     },
-    nominate : {
+    companyName : {
         type : String,
         required : true,
         trim: true,
     },
-    linkedin : {
-        type : String,
-        required : true,
-    },
-    votes : {
-        type : Number,
-        required : true,
-        default : 0,
-        min: 0,
-    },
-    juryVotes : {
-        type : Number,
-        required : true,
-        default : 0,
-        min: 0,
-    },
-    nominatedBy : {
+    juryDesc : {
         type : String,
         required : true,
         trim: true,
     },
-    nominatedDes : {
+   
+    img : {
+        type : String,
+        required : true,
+        trim:true,
+    },
+    linkedin: {
         type : String,
         required : true,
         trim: true,
     },
+   
+   
 })
 
-const EmployeeData = new mongoose.model("EmployeeData",employeeSchema) //JurryData
+const juryData = new mongoose.model("juryData",jurySchema)
 
-module.exports = EmployeeData; //export JurryData
-
+module.exports = juryData;

@@ -11,6 +11,7 @@ app.use(express.static(path.join(__dirname,"../public")))
 
 //--------------------------------Requiring MongooseDB------------------------------------
 const EmployeeData = require("../DB_Models/db.js")
+const juryData = require("../DB_Models/jury.js")
 //--------------------------------Data Parse------------------------------------
 app.use(express.json());
 app.use(express.urlencoded({extended : true}))
