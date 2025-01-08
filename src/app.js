@@ -47,8 +47,18 @@ app.get("/leaderboard",(req,res)=>{
 
 //---------------------------------Jury Route---------------------------------------
 
-app.get("/jury",(req,res)=>{
-    res.render("./pages/jury")
+app.get("/jury",async(req,res)=>{
+  let jury=await juryData.find();
+  res.render("./pages/jury",{jury});
+})
+
+
+//jury-route
+app.post("/jury/:_id",async(req,res)=>{
+    let {_id} = req.params;
+    let data = await juryData.findById(_id)
+    res.redirect("/")
+
 })
 
 

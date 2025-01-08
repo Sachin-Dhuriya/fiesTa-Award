@@ -1,4 +1,46 @@
 <% layout("/layouts/boilerplate") %>
 <body>
     <h1>Jury Page</h1>
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jury Card</title>
+    <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+    <div class=" jury-container">
+        <% for (let jd of jury) { %>
+         <div class="part1">
+            <div class="jcard">
+                <div class="jheader">
+                <img src="<%= jd.img%>" class="jimg"  alt="jury_image">
+                <h5><%= jd.name %></h5><br><br>
+                <p class="subtitle"><%= jd.position%></p>
+               <b><p><%= jd.companyName %></p>
+               </div>
+               <hr>
+                
+                <p class="subtitle"><%= jd.juryDesc %></p>
+        
+                <div class="buttons">
+                    <button class="profile-btn">
+                      <span class="badge linkedin">
+                        <img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png" alt="LinkedIn" />
+                      </span>
+                      <a class="linkedin-link" target="_blank" href="<%= jd.linkedin %>">View Profile</a>
+                    </button>
+                    <form action="/jury/<%= jd._id %>" method="post"></form>
+                    
+                  </div>
+
+
+                </div>
+            </div>
+        </div>
+     <% } %>
+    </div> 
+   </body>
+   </html>
 </body>
