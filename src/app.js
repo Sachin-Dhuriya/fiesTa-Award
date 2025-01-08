@@ -24,7 +24,7 @@ app.listen(port, ()=>{
 })
 
 //--------------------------------Routing------------------------------------
-//---->HomePage Route
+//---->HomePage Route //Welcome to Friend Repo
 app.get('/', async (req, res) => {
     let data = await EmployeeData.find();
     res.render("routes/home.ejs",{data});
