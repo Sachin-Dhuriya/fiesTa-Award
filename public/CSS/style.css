@@ -1,0 +1,160 @@
+/* General Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9; /* Light background for better contrast */
+}
+
+.linkedin-link{
+  text-decoration: none;
+  color: white;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  color: #333; /* Dark gray for better readability */
+  margin: 20px 0;
+  text-transform: uppercase; /* Makes the text uppercase */
+  letter-spacing: 2px; /* Adds spacing between letters */
+  background: linear-gradient(90deg, #007bff, #ff9800); /* Gradient effect */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* Makes the gradient visible inside text */
+}
+
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Flexible grid layout */
+  gap: 20px; /* Space between cards */
+  padding: 20px;
+  width: 100%;
+  max-width: 1400px; /* Limits the container width */
+  margin: 0 auto; /* Centers the container horizontally */
+}
+
+/* Card Styles */
+.card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Adds lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.badges {
+  display: flex;
+  gap: 5px;
+}
+
+.badge {
+  background-color: #007bff;
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge.linkedin img {
+  width: 14px;
+  height: 14px;
+}
+
+/* Subtitle and Status */
+.subtitle {
+  margin: 8px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.status {
+  margin: -4px 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.status-badge {
+  display: inline-block;
+  background-color: #2ecc71;
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.votes, .jury {
+  margin-left: 8px;
+}
+
+/* Buttons */
+.buttons {
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-btn, .vote-btn {
+  border: none;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.profile-btn {
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.vote-btn {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+/* Nomination Text */
+.nomination {
+  margin-top: -10px;
+  font-size: 12px;
+  color: #888;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .card-container {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 15px;
+  }
+}

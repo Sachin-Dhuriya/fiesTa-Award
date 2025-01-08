@@ -1,7 +1,49 @@
 <% layout("/layouts/boilerplate") %>
 
 <body>
-    <h1>Welcome to Travelectra!</h1>
-    <p>This is the homepage content.</p>
+    <h1>Nominated Employees</h1>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Design</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="card-container">
+        <% for (let d of data) { %>
+          <div class="card">
+            <div class="header">
+              <h2><%= d.name %></h2>
+              <div class="badges">
+                <span class="badge">Peer</span>
+              </div>
+            </div>
+            <p class="subtitle"><%= d.position %></p>
+            <div class="status">
+              <span class="status-badge"><%= d.nominate %></span> <br><br>
+              <span class="votes"><b><%= d.votes %></b> <i class="icon">👍</i> votes</span>
+              <span class="jury">Jury Score: <b><%= d.juryVotes %></b></span>
+            </div>
+            <div class="buttons">
+              <button class="profile-btn">
+                <span class="badge linkedin">
+                  <img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png" alt="LinkedIn" />
+                </span>
+                <a class="linkedin-link" target="_blank" href="<%= d.linkedin %>">LinkedIn Profile</a>
+              </button>
+              <form action="/vote/<%= d._id %>" method="post"><button class="vote-btn">👍 Vote</button></form>
+              
+            </div>
+            <hr>
+            <p class="nomination">Nominated by <%= d.nominatedBy %></p>
+          </div>
+        <% } %>
+      </div>
+      
+</body>
+</html>
+
 </body>
 

@@ -24,12 +24,38 @@ app.listen(port, ()=>{
 })
 
 //--------------------------------Routing------------------------------------
-
-app.get('/', (req, res) => {
-    res.render("routes/home.ejs");
+//---->HomePage Route
+app.get('/', async (req, res) => {
+    let data = await EmployeeData.find();
+    res.render("routes/home.ejs",{data});
 });
+//----> Vote Route
+app.post("/vote/:_id",async (req,res)=>{
+    let {_id} = req.params;
+    let data = await EmployeeData.findById(_id)
+    let count = ++data.votes;
+    await EmployeeData.findByIdAndUpdate(_id,{votes : count})
+    res.redirect("/")
+})
+
+//--------------------------------Leaderboard Route------------------------------
+
+app.get("/leaderboard",(req,res)=>{
+    res.render("./pages/leaderboard")
+})
+
+//---------------------------------Jury Route---------------------------------------
+
+app.get("/jury",(req,res)=>{
+    res.render("./pages/jury")
+})
 
 
+//---------------------------------Nominate Route-------------------------------------
+
+app.get("/nominate",(req,res)=>{
+    res.render("./pages/nominate")
+})
 
 
 
