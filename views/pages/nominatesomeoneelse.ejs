@@ -1,0 +1,97 @@
+<% layout("/layouts/boilerplate") %>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nominate Yourself</title>
+        <link rel="stylesheet" href="/CSS/form.css"> <!-- Include your CSS -->
+
+    </head>
+
+    <body>
+        <h1>Nominate Someone Else</h1>
+
+        <form id="nominateForm" action="/submitnomination" method="POST">
+            <!-- Step 1 -->
+            <div class="form-step active" id="step1">
+                <label>Nomination Type:</label>
+                <div>
+                    <input type="radio" id="self" name="nominationType" value="peer" checked>
+                    <label for="self">Peer</label>
+                </div>
+
+                <label for="fullName">Nominee's Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+
+                <label for="email">Nominee's Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="linkedIn">Nominee's LinkedIn URL:</label>
+                <input type="url" id="linkedIn" name="linkedIn" required>
+
+                <label for="phone">Nominee's Phone Number:</label>
+                <input type="number" id="phone" name="phone" required>
+
+                <label for="company">Nominee's Current Company:</label>
+                <input type="text" id="company" name="company" required>
+
+                <label for="jobTitle">Nominee's Job Title:</label>
+                <input type="text" id="jobTitle" name="jobTitle" required>
+
+                <!-- Dropdown Menu for Category -->
+                <label for="category">Nominate for Category:</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="Top TA Leader">Top TA Leader</option>
+                    <option value="Best DEI Advocate">Best DEI Advocate</option>
+                    <option value="Best Leadership Recruiter">Best Leadership Recruiter</option>
+                    <option value="Best Tech Recruiter">Best Tech Recruiter</option>
+                </select>
+
+                <div class="form-navigation">
+                    <button type="button" id="nextStep1">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="form-step" id="step2">
+                <label for="fullName">Your Full Name:</label>
+                <input type="text" id="fullName" name="peerFullName" required>
+
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="peerEmail" required>
+
+                <label for="linkedIn">Your LinkedIn URL:</label>
+                <input type="url" id="linkedIn" name="peerLinkedIn" required>
+
+                <label for="phone">Your Phone Number:</label>
+                <input type="number" id="phone" name="peerPhone" required>
+
+                <label for="company">Your Current Company:</label>
+                <input type="text" id="company" name="peerCompany" required>
+
+                <label for="jobTitle">Your Job Title:</label>
+                <input type="text" id="jobTitle" name="peerJobTitle" required>
+
+                <!-- Dropdown Menu for Category -->
+                <label for="category">Your relation with nominee:</label>
+                <select id="category" name="relation" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="Colleague">Colleague</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Stake Holder">Stake Holder</option>
+                </select>
+
+                <div class="form-navigation">
+                    <button type="button" id="prevStep2">Previous</button>
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+
+        <script src="/JS/form.js"></script>
+    </body>
+
+    </html>

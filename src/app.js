@@ -10,10 +10,10 @@ app.use(express.static(path.join(__dirname,"../public")))
 //app.set('layout', 'layouts/boilerplate'); //deep 
 
 //--------------------------------Requiring MongooseDB------------------------------------
-const EmployeeData = require("../DB_Models/db.js");
-const juryData = require("../DB_Models/jury.js");
-const GoogleProfile = require("../DB_Models/GoogleProfile.js");
-
+const EmployeeData = require("../DB_Models/db.js")
+const juryData = require("../DB_Models/jury.js")
+const nominateData=require("../DB_Models/nominate.js")
+const GoogleProfile=require("../DB_Models/GoogleProfile.js")
 //--------------------------------Data Parse------------------------------------
 app.use(express.json());
 app.use(express.urlencoded({extended : true}))
@@ -126,16 +126,24 @@ app.listen(port, ()=>{
 //---->HomePage Route //Welcome to Friend Repo
 app.get('/', async (req, res) => {
     let data = await EmployeeData.find();
-    res.render("routes/home.ejs",{data});
+    let nominate = await nominateData.find();
+    res.render("routes/home.ejs",{data , nominate});
 });
 //----> Vote Route
-app.post("/vote/:_id",async (req,res)=>{
-    let {_id} = req.params;
-    let data = await EmployeeData.findById(_id)
-    let count = ++data.votes;
-    await EmployeeData.findByIdAndUpdate(_id,{votes : count})
-    res.redirect("/")
-})
+app.post("/vote/:_id", async (req, res) => {
+    try {
+        let { _id } = req.params;
+        let data = await nominateData.findById(_id);
+        let count = ++data.votes;
+        await nominateData.findByIdAndUpdate(_id, { votes: count });
+
+        res.status(200).json({ success: true, votes: count });
+    } catch (error) {
+        console.error("Error updating votes: ", error);
+        res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+});
+
 
 //--------------------------------Leaderboard Route------------------------------
 
@@ -162,8 +170,38 @@ app.post("/jury/:_id",async(req,res)=>{
 
 //---------------------------------Nominate Route-------------------------------------
 
-app.get("/nominate",(req,res)=>{
-    res.render("./pages/nominate")
+app.get("/nominateyourself",(req,res)=>{
+    res.render("./pages/nominateyourself")
+})
+
+app.post("/submitnomination",async (req,res)=>{
+    let {nominationType, fullName, email, linkedIn, phone, company, jobTitle, category, peerFullName, peerEmail, peerLinkedIn, peerPhone, peerCompany, peerJobTitle, relation} = req.body;
+
+    let data = new nominateData({
+        nominationType : nominationType,
+        fullName : fullName,
+        email : email,
+        linkedIn : linkedIn,
+        phone : phone,
+        company : company,
+        jobTitle : jobTitle,
+        category : category,
+        peerFullName : peerFullName,
+        peerEmail : peerEmail,
+        peerLinkedIn : peerLinkedIn,
+        peerPhone : peerPhone,
+        peerCompany : peerCompany,
+        peerJobTitle : peerJobTitle,
+        relation : relation,
+    })
+
+    data.save().then(()=>{console.log("Data Saved Successfully...");}).catch(()=>{console.log("Error Occurred");})
+    res.redirect("/")
+})
+
+
+app.get("/nominatesomeoneelse",(req,res)=>{
+    res.render("./pages/nominatesomeoneelse")
 })
 
 
