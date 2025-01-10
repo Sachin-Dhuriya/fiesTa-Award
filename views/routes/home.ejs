@@ -2,36 +2,40 @@
 
 <body>
   <h1>Nominated Employees</h1>
-    <div class="card-container">
-        <% for (let d of data) { %>
-          <div class="card">
-            <div class="header">
-              <h2><%= d.name %></h2>
-              <div class="badges">
-                <span class="badge">Peer</span>
-              </div>
-            </div>
-            <p class="subtitle"><%= d.position %></p>
-            <div class="status">
-              <span class="status-badge"><%= d.nominate %></span> <br><br>
-              <span class="votes"><b><%= d.votes %></b> <i class="icon">👍</i> votes</span>
-              <span class="jury">Jury Score: <b><%= d.juryVotes %></b></span>
-            </div>
-            <div class="buttons">
-              <button class="profile-btn">
-                <span class="badge linkedin">
-                  <img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png" alt="LinkedIn" />
-                </span>
-                <a class="linkedin-link" target="_blank" href="<%= d.linkedin %>">LinkedIn Profile</a>
-              </button>
-              <form action="/vote/<%= d._id %>" method="post"><button class="vote-btn">👍 Vote</button></form>
-              
-            </div>
-            <hr>
-            <p class="nomination">Nominated by <%= d.nominatedBy %></p>
+  <div class="card-container">
+    <% for (let nom of nominate) { %>
+      <div class="card">
+        <div class="header">
+          <h2><%= nom.fullName %></h2>
+          <div class="badges">
+            <span class="badge"><%= nom.nominationType %></span>
           </div>
-        <% } %>
+        </div>
+        <p class="subtitle"><%= nom.jobTitle %></p>
+        <div class="status">
+          <span class="status-badge"><%= nom.category %></span> <br><br>
+          <span class="votes">
+            <b id="votes-<%= nom._id %>"><%= nom.votes %></b> <i class="icon">👍</i> votes
+          </span>
+          <span class="jury">Jury Score: <b>0</b></span>
+        </div>
+        <div class="buttons">
+          <button class="profile-btn">
+            <span class="badge linkedin">
+              <img
+                src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png"
+                alt="LinkedIn"
+              />
+            </span>
+            <a class="linkedin-link" target="_blank" href="<%= nom.linkedIn %>">LinkedIn Profile</a>
+          </button>
+          <button class="vote-btn" data-id="<%= nom._id %>">👍 Vote</button>
+        </div>
+        <hr>
+        <p class="nomination">Nominated by <%= nom.peerFullName %></p>
       </div>
+    <% } %>
+  </div>
 
+  <script src="/JS/home.js"></script>
 </body>
-

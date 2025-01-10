@@ -1,0 +1,76 @@
+<% layout("/layouts/boilerplate") %>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nominate Yourself</title>
+        <link rel="stylesheet" href="/CSS/form.css"> <!-- Include your CSS -->
+
+    </head>
+
+    <body>
+        <h1>Nominate Yourself</h1>
+
+        <form id="nominateForm" action="/submitnomination" method="POST">
+            <!-- Step 1 -->
+            <div class="form-step active" id="step1">
+                <label>Nomination Type:</label>
+                <div>
+                    <input type="radio" id="self" name="nominationType" value="self" checked>
+                    <label for="self">Self</label>
+                </div>
+
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="linkedIn">LinkedIn URL:</label>
+                <input type="url" id="linkedIn" name="linkedIn" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="number" id="phone" name="phone" required>
+
+                <label for="company">Current Company:</label>
+                <input type="text" id="company" name="company" required>
+
+                <label for="jobTitle">Job Title:</label>
+                <input type="text" id="jobTitle" name="jobTitle" required>
+
+                <!-- Dropdown Menu for Category -->
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="Top TA Leader">Top TA Leader</option>
+                    <option value="Best DEI Advocate">Best DEI Advocate</option>
+                    <option value="Best Leadership Recruiter">Best Leadership Recruiter</option>
+                    <option value="Best Tech Recruiter">Best Tech Recruiter</option>
+                </select>
+
+                <div class="form-navigation">
+                    <button type="button" id="nextStep1">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="form-step" id="step2">
+                <label for="whyFit">What previous experience or achievements make you stand out for this category?</label>
+                <textarea id="whyFit" name="whyFit" rows="5" required></textarea>
+
+                <label for="ideas">What innovative ideas or improvements would you propose for this category? (Optional)</label>
+                <textarea id="additionalInfo" name="ideas" rows="5"></textarea>
+
+                <div class="form-navigation">
+                    <button type="button" id="prevStep2">Previous</button>
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+
+        <script src="/JS/form.js"></script>
+    </body>
+
+    </html>

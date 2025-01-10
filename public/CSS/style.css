@@ -290,4 +290,73 @@ p {
   text-decoration: underline;
 }
 
+/*Nominate Popup*/
+
+/* Navbar */
+nav {
+  background: #333;
+  color: white;
+  padding: 10px 20px;
+  text-align: right;
+}
+
+#pop-nominateBtn {
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Popup */
+.pop-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dim background */
+  z-index: 9999; /* Ensure it appears on top */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Popup Content */
+.pop-popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  position: relative;
+  z-index: 10000; /* Ensures it is above the overlay */
+}
+
+.pop-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Cards */
+.pop-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pop-card {
+  background: #f4f4f4;
+  padding: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.pop-card:hover {
+  background: #eaeaea;
+} 
 

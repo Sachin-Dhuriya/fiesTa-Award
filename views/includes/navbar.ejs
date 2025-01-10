@@ -1,30 +1,47 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/">FiesTA Awwards</a>
-    <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search by nan" aria-label="Search">
-    </form>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/leaderboard">Leaderboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/jury">Jury</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/nominate">+ Nominate</a>
-        </li>
-      </ul>
-      <!-- Google Sign In Button -->
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="btn btn-outline-primary" href="/auth/google">Sign in with Google</a>
-        </li>
-      </ul>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="/">FiesTA Awwards</a>
+      <form class="d-flex" role="search">
+        <input type="text" id="search-bar" placeholder="Search by name..." class="search-input">
+      </form>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/leaderboard">Leaderboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/jury">Jury</a>
+          </li>
+          <li class="nav-item">
+            <button id="pop-nominateBtn">+📣 Nominate</button>
+          </li>
+        </ul>
+        <!-- Google Sign In Button -->
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="btn btn-outline-primary" href="/auth/google">Sign in with Google</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Main Popup -->
+  <div id="pop-mainPopup" class="pop-popup">
+    <div class="pop-popup-content">
+      <span class="pop-close-btn" id="pop-closeMainPopup">&times;</span>
+      <h2>Nominate</h2>
+      <div class="pop-cards">
+        <div class="pop-card" id="pop-nominateYourself">Nominate Yourself</div>
+        <div class="pop-card" id="pop-nominateSomeoneElse">Nominate Someone Else</div>
+      </div>
     </div>
   </div>
-</nav>
+  
+  <script src="/JS/nominate.js"></script>
+</body>
+
