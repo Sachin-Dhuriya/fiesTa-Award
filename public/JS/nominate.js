@@ -31,4 +31,45 @@ nominateSomeoneElseCard.addEventListener('click', () => {
     window.location.href = '/nominatesomeoneelse'; // Redirect to the desired route
 });
 
+//------------------------------leaderboard-----------------------------------------------
 
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("search-input");
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const leaderboardRows = document.querySelectorAll(".leaderboard-row");
+
+  // Filter by Category
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const category = button.getAttribute("data-category");
+      
+      // Set active button
+      filterButtons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      // Filter rows
+      leaderboardRows.forEach((row) => {
+        const rowCategory = row.getAttribute("data-category");
+        if (category === "all" || rowCategory === category) {
+          row.style.display = ""; // Show row
+        } else {
+          row.style.display = "none"; // Hide row
+        }
+      });
+    });
+  });
+
+  // Search by Name
+  searchInput.addEventListener("input", () => {
+    const searchQuery = searchInput.value.toLowerCase();
+
+    leaderboardRows.forEach((row) => {
+      const rowName = row.getAttribute("data-name");
+      if (rowName.includes(searchQuery)) {
+        row.style.display = ""; // Show row
+      } else {
+        row.style.display = "none"; // Hide row
+      }
+    });
+  });
+});

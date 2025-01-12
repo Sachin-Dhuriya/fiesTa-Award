@@ -147,10 +147,24 @@ app.post("/vote/:_id", async (req, res) => {
 
 //--------------------------------Leaderboard Route------------------------------
 
-app.get("/leaderboard",(req,res)=>{
-    res.render("./pages/leaderboard")
+app.get("/leaderboard",async(req,res)=>{
+    let nominate = await nominateData.find();
+    res.render("./pages/leaderboard",{nominate})
 })
+//----> Vote Route
+app.post("/vote/:_id", async (req, res) => {
+    try {
+        let { _id } = req.params;
+        let data = await nominateData.findById(_id);
+        let count = ++data.votes;
+        await nominateData.findByIdAndUpdate(_id, { votes: count });
 
+        res.status(200).json({ success: true, votes: count });
+    } catch (error) {
+        console.error("Error updating votes: ", error);
+        res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+});
 //---------------------------------Jury Route---------------------------------------
 
 app.get("/jury",async(req,res)=>{
@@ -205,6 +219,23 @@ app.get("/nominatesomeoneelse",(req,res)=>{
 })
 
 
+//---------------------------Search Route-------------------------------------
+// Search API for live search functionality
+app.get('/search', async (req, res) => {
+    try {
+        const { query } = req.query; // Get the search term from the request
+
+        // Query the database for employees whose full name matches the search term
+        const results = await nominateData.find({
+            fullName: { $regex: query, $options: 'i' }, // Case-insensitive search
+        });
+
+        res.status(200).json(results); // Return matching results as JSON
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 
 

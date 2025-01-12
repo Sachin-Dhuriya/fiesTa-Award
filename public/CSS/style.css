@@ -360,3 +360,348 @@ nav {
   background: #eaeaea;
 } 
 
+/* leaderboard css */
+/* Leaderboard Page Styles */
+
+/* General Leaderboard Styles */
+.leaderboard-container {
+  background-color: #f9f9fb; /* Light background for leaderboard page */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.leaderboard-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.leaderboard-subtitle {
+  text-align: center;
+  color: #777;
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+/* Table Container */
+.leaderboard-table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-table thead {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.leaderboard-table th {
+  padding: 15px;
+  font-size: 1rem;
+  text-align: left;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.leaderboard-table tbody tr {
+  transition: background-color 0.3s;
+}
+
+.leaderboard-table tbody tr:nth-child(odd) {
+  background-color: #f4f4f9;
+}
+
+.leaderboard-table tbody tr:nth-child(even) {
+  background-color: #fff;
+}
+
+.leaderboard-table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+.leaderboard-table td {
+  padding: 15px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Rank Styles */
+.rank-badge {
+  display: inline-block;
+  background-color: #28a745;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Profile Column Styles */
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info .profile-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Score and Action Buttons */
+.leaderboard-score {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.view-profile-btn,
+.send-message-btn {
+  padding: 8px 12px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  text-align: center;
+}
+
+.view-profile-btn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.view-profile-btn:hover {
+  background-color: #0056b3;
+}
+
+.send-message-btn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.send-message-btn:hover {
+  background-color: #1e7e34;
+}
+
+/* Pagination Styles */
+.leaderboard-pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-button {
+  background-color: #fff;
+  color: #007bff;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0 5px;
+}
+
+.pagination-button:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.pagination-button.active {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .leaderboard-table th, .leaderboard-table td {
+    font-size: 0.8rem;
+    padding: 10px;
+  }
+
+  .profile-info .profile-name {
+    font-size: 0.8rem;
+  }
+
+  .view-profile-btn, .send-message-btn {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .pagination-button {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+}
+
+/* General styles for leaderboard filters */
+.leaderboard-filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Makes buttons wrap to the next line on smaller screens */
+    gap: 10px; /* Adds space between buttons */
+    justify-content: center;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50; /* Default green color */
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth color change and scaling */
+}
+
+.filter-btn.active {
+    background-color: #008CBA; /* Different color for active button */
+}
+
+.filter-btn:hover {
+    background-color: rgba(76, 175, 80, 0.8); /* Lighter shade on hover */
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 300px; /* Limits the width of the input */
+    font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .filter-buttons {
+        flex-direction: column; /* Stack buttons vertically on smaller screens */
+        align-items: center;
+    }
+
+    .filter-btn {
+        width: 80%; /* Full-width buttons for smaller screens */
+        text-align: center;
+    }
+
+    .search-input {
+        width: 90%; /* Full-width input with padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-btn {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+
+    .search-input {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+}
+
+/* leaderboard buttons css */
+
+/* General styles for leaderboard filters */
+.leaderboard-filters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap; /* Makes buttons wrap to the next line on smaller screens */
+  gap: 10px; /* Adds space between buttons */
+  justify-content: center;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50; /* Default green color */
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth color change and scaling */
+}
+
+.filter-btn.active {
+  background-color: #008CBA; /* Different color for active button */
+}
+
+.filter-btn:hover {
+  background-color: rgba(76, 175, 80, 0.8); /* Lighter shade on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 300px; /* Limits the width of the input */
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .filter-buttons {
+      flex-direction: column; /* Stack buttons vertically on smaller screens */
+      align-items: center;
+  }
+
+  .filter-btn {
+      width: 80%; /* Full-width buttons for smaller screens */
+      text-align: center;
+  }
+
+  .search-input {
+      width: 90%; /* Full-width input with padding */
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-btn {
+      font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
+  .search-input {
+      font-size: 14px; /* Adjust font size for smaller screens */
+  }
+}
+
