@@ -34,6 +34,20 @@ app.use(
         saveUninitialized: true,
     })
 );
+//--------------------------------Middleware for Authentication------------------------------------
+function isAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/auth/google'); // Redirect to login if not authenticated
+}
+
+function isAdmin(req, res, next) {
+    if (req.isAuthenticated() && req.user.isAdmin) {
+        return next();
+    }
+    res.status(403).send('Access denied. Admins only.');
+}
 
 // Initialize Passport.js
 app.use(passport.initialize());
@@ -75,11 +89,17 @@ passport.use(
 
 // Serialize and deserialize user
 passport.serializeUser((user, done) => {
-    done(null, user); // Save the user object to the session
+    // Make sure isAdmin is included in the serialized user data
+    done(null, { id: user.id, isAdmin: user.isAdmin });
 });
 
-passport.deserializeUser((user, done) => {
-    done(null, user); // Retrieve the user object from the session
+passport.deserializeUser(async (user, done) => {
+    try {
+        const profile = await GoogleProfile.findOne({ id: user.id });
+        done(null, profile); // This ensures the profile includes the isAdmin field
+    } catch (error) {
+        done(error, null);
+    }
 });
 
 // Routes
@@ -123,14 +143,45 @@ app.listen(port, ()=>{
 })
 
 //--------------------------------Routing------------------------------------
-//---->HomePage Route //Welcome to Friend Repo
-app.get('/', async (req, res) => {
+//--------------------------------Admin Control Panel Route-------------------------------------
+app.get('/admin', isAdmin, async (req, res) => {
+    console.log('User:', req.user);  // Log the user object to ensure isAdmin is true
+
+    const nominations = await nominateData.find();
+    const jury = await juryData.find();
+    const employees = await EmployeeData.find();
+    res.render('./admin/adminPanel', {
+        userName: req.user.displayName,
+        nominations,
+        jury,
+        employees,
+    });
+});
+
+// Admin can delete a nomination
+app.post('/admin/deleteNomination/:id', isAdmin, async (req, res) => {
+    const { id } = req.params;
+    await nominateData.findByIdAndDelete(id);
+    res.redirect('/admin');
+});
+
+// Admin can update a nomination
+app.post('/admin/editNomination/:id', isAdmin, async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body;
+    await nominateData.findByIdAndUpdate(id, updatedData);
+    res.redirect('/admin');
+});
+
+//---->HomePage Route 
+app.get("/", async (req, res) => {
     let data = await EmployeeData.find();
     let nominate = await nominateData.find();
-    res.render("routes/home.ejs",{data , nominate});
+    let userName = req.isAuthenticated() ? req.user.displayName : null; // Get the user's name
+    res.render("routes/home.ejs", { data, nominate, userName });
 });
 //----> Vote Route
-app.post("/vote/:_id", async (req, res) => {
+app.post('/vote/:_id', isAuthenticated, async (req, res) => {
     try {
         let { _id } = req.params;
         let data = await nominateData.findById(_id);
@@ -139,18 +190,44 @@ app.post("/vote/:_id", async (req, res) => {
 
         res.status(200).json({ success: true, votes: count });
     } catch (error) {
-        console.error("Error updating votes: ", error);
-        res.status(500).json({ success: false, error: "Internal Server Error" });
+        console.error('Error updating votes: ', error);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
     }
 });
 
 
 //--------------------------------Leaderboard Route------------------------------
+app.get("/leaderboard", async (req, res) => {
+    try {
+        let nominate = await nominateData.find();
+        const userName = req.user ? req.user.displayName : null;
+        // Sort nominees by total score in descending order
+        nominate = nominate.sort((a, b) => {
+            const totalScoreA = a.votes + (a.juryVotes || 0);
+            const totalScoreB = b.votes + (b.juryVotes || 0);
+            return totalScoreB - totalScoreA;
+        });
 
-app.get("/leaderboard",async(req,res)=>{
-    let nominate = await nominateData.find();
-    res.render("./pages/leaderboard",{nominate})
-})
+        // Assign ranks only to the top 3
+        nominate = nominate.map((nominee, index) => {
+            nominee.rankIcon =
+                index === 0
+                    ? "🏆"
+                    : index === 1
+                    ? "🥈"
+                    : index === 2
+                    ? "🥉"
+                    : ""; // No prize for ranks beyond 3
+            return nominee;
+        });
+
+        res.render("./pages/leaderboard", { nominate, userName });
+    } catch (error) {
+        console.error("Error fetching leaderboard data: ", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 //----> Vote Route
 app.post("/vote/:_id", async (req, res) => {
     try {
@@ -167,10 +244,11 @@ app.post("/vote/:_id", async (req, res) => {
 });
 //---------------------------------Jury Route---------------------------------------
 
-app.get("/jury",async(req,res)=>{
-  let jury=await juryData.find();
-  res.render("./pages/jury",{jury});
-})
+app.get("/jury", async (req, res) => {
+    const userName = req.user ? req.user.displayName : null;
+    const jury = await juryData.find();
+    res.render("./pages/jury", { userName, jury });
+});
 
 
 //jury-route
@@ -185,7 +263,8 @@ app.post("/jury/:_id",async(req,res)=>{
 //---------------------------------Nominate Route-------------------------------------
 
 app.get("/nominateyourself",(req,res)=>{
-    res.render("./pages/nominateyourself")
+    const userName = req.user ? req.user.displayName : null;
+    res.render("./pages/nominateyourself",{userName})
 })
 
 app.post("/submitnomination",async (req,res)=>{
@@ -215,7 +294,8 @@ app.post("/submitnomination",async (req,res)=>{
 
 
 app.get("/nominatesomeoneelse",(req,res)=>{
-    res.render("./pages/nominatesomeoneelse")
+    const userName = req.user ? req.user.displayName : null;
+    res.render("./pages/nominatesomeoneelse",{userName})
 })
 
 

@@ -705,3 +705,86 @@ nav {
   }
 }
 
+/*Admin Pannel*/
+/* Admin Panel Styling */
+.admin-welcome {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.admin-title {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.admin-section {
+  margin-bottom: 30px;
+}
+
+.admin-section-title {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+
+.admin-nominations-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-nominations-header {
+  text-align: left;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+}
+
+.admin-nomination-row {
+  border-bottom: 1px solid #eee;
+}
+
+.admin-nomination-cell {
+  padding: 10px;
+}
+
+.admin-nomination-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-nomination-edit-form, 
+.admin-nomination-delete-form {
+  margin: 0;
+}
+
+.admin-nomination-input {
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.admin-button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-button:hover {
+  background-color: #0056b3;
+}
+
+.admin-jury-list,
+.admin-employee-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.admin-jury-item,
+.admin-employee-item {
+  padding: 8px;
+  background-color: #f9f9f9;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+

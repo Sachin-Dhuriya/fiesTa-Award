@@ -22,10 +22,16 @@
         </ul>
         <!-- Google Sign In Button -->
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="btn btn-outline-primary" href="/auth/google">Sign in with Google</a>
-            <a class="btn btn-outline-primary" href="/logout">Sign Out</a>
-          </li>
+          <% if (userName) { %>
+            <li class="nav-item">
+              <span class="navbar-text">Welcome, <%= userName %>!</span>
+              <a class="btn btn-outline-primary ms-2" href="/logout">Sign Out</a>
+            </li>
+          <% } else { %>
+            <li class="nav-item">
+              <a class="btn btn-outline-primary" href="/auth/google">Sign in with Google</a>
+            </li>
+          <% } %>
         </ul>
       </div>
     </div>

@@ -1,0 +1,53 @@
+<% layout("/layouts/boilerplate") %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1 class="admin-welcome">Welcome, <%= userName %>!</h1>
+    <h2 class="admin-title">Admin Panel</h2>
+
+    <section class="admin-section">
+        <h3 class="admin-section-title">Nominations</h3>
+        <table class="admin-nominations-table">
+            <thead>
+                <tr>
+                    <th class="admin-nominations-header">Name</th>
+                    <th class="admin-nominations-header">Category</th>
+                    <th class="admin-nominations-header">Votes</th>
+                    <th class="admin-nominations-header">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% nominations.forEach(nominee => { %>
+                    <tr class="admin-nomination-row">
+                        <td class="admin-nomination-cell"><%= nominee.fullName %></td>
+                        <td class="admin-nomination-cell"><%= nominee.category %></td>
+                        <td class="admin-nomination-cell"><%= nominee.votes %></td>
+                        <td class="admin-nomination-actions">
+                            <form action="/admin/editNomination/<%= nominee._id %>" method="POST" class="admin-nomination-edit-form">
+                                <input type="text" name="category" placeholder="New Category" class="admin-nomination-input">
+                                <button type="submit" class="admin-button">Edit</button>
+                            </form>
+                            <form action="/admin/deleteNomination/<%= nominee._id %>" method="POST" class="admin-nomination-delete-form">
+                                <button type="submit" class="admin-button">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="admin-section">
+        <h3 class="admin-section-title">Jury</h3>
+        <ul class="admin-jury-list">
+            <% jury.forEach(juror => { %>
+                <li class="admin-jury-item"><%= juror.name %></li>
+            <% }) %>
+        </ul>
+    </section>
+</body>
+
+</html>

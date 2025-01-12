@@ -16,6 +16,7 @@ const GoogleProfileSchema = new mongoose.Schema({ //googleProfileSchema
       familyName: String,
       givenName: String,
     },
+    isAdmin: { type: Boolean, default: false },
     emails: [
       { value: String, verified: Boolean }
     ],
