@@ -1,4 +1,57 @@
 <% layout("/layouts/boilerplate") %>
 <body>
     <h1>Leaderboard Page</h1>
+    <div class="leaderboard-filters">
+        <!-- Search Input -->
+        <input type="text" id="search-input" class="search-input" placeholder="Search nominees...">
+        <br><br>
+      
+        <!-- Category Filter Buttons -->
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-category="all">All Categories</button>
+          <button class="filter-btn" data-category="Top TA Leader">Top TA Leader</button>
+          <button class="filter-btn" data-category="Best DEI Advocate">Best DEI Advocate</button>
+          <button class="filter-btn" data-category="Best Leadership Recruiter">Best Leadership Recruiter</button>
+          <button class="filter-btn" data-category="Best Tech Recruiter">Best Tech Recruiter</button>
+        </div>
+      </div>
+      
+      <!-- Leaderboard Table -->
+      <div class="leaderboard-container">
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Nominee</th>
+              <th>Category</th>
+              <th>Company</th>
+              <th>Community Votes</th>
+              <th>Jury Votes</th>
+              <th>Total Score</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+            <% let rank = 0; %>
+            <% for (let nom of nominate) { 
+                rank++; %>
+              <tr class="leaderboard-row" data-category="<%= nom.category %>" data-name="<%= nom.fullName.toLowerCase() %>">
+                <td>
+                    <div class="rank-icon">
+                        <%= rank === 1 ? '🏆' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '🔶' %>
+                    </div>
+                </td>
+                <td><%= nom.fullName %></td>
+                <td><%= nom.category %></td>
+                <td><%= nom.company || "Axis Max Life Insurance" %></td>
+                <td><%= nom.votes %></td>
+                <td><%= nom.juryVotes || 0 %></td>
+                <td><%= nom.votes + (nom.juryVotes || 0) %></td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      
+   
+      
 </body>
