@@ -147,10 +147,38 @@ app.post("/vote/:_id", async (req, res) => {
 
 //--------------------------------Leaderboard Route------------------------------
 
-app.get("/leaderboard",async(req,res)=>{
-    let nominate = await nominateData.find();
-    res.render("./pages/leaderboard",{nominate})
-})
+app.get("/leaderboard", async (req, res) => {
+    try {
+        let nominate = await nominateData.find();
+
+        // Sort nominees by total score in descending order
+        nominate = nominate.sort((a, b) => {
+            const totalScoreA = a.votes + (a.juryVotes || 0);
+            const totalScoreB = b.votes + (b.juryVotes || 0);
+            return totalScoreB - totalScoreA;
+        });
+
+        // Assign ranks only to the top 3
+        nominate = nominate.map((nominee, index) => {
+            nominee.rankIcon =
+                index === 0
+                    ? "🏆"
+                    : index === 1
+                    ? "🥈"
+                    : index === 2
+                    ? "🥉"
+                    : ""; // No prize for ranks beyond 3
+            return nominee;
+        });
+
+        res.render("./pages/leaderboard", { nominate });
+    } catch (error) {
+        console.error("Error fetching leaderboard data: ", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
 //----> Vote Route
 app.post("/vote/:_id", async (req, res) => {
     try {

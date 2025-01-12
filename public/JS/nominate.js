@@ -36,26 +36,44 @@ nominateSomeoneElseCard.addEventListener('click', () => {
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const filterButtons = document.querySelectorAll(".filter-btn");
-  const leaderboardRows = document.querySelectorAll(".leaderboard-row");
+  let leaderboardRows = Array.from(document.querySelectorAll(".leaderboard-row"));
+
+  // Function to sort rows by total score (descending order)
+  const sortRowsByScore = (rows) => {
+    return rows.sort((a, b) => {
+      const scoreA = parseInt(a.cells[6].innerText, 10); // Total Score column index
+      const scoreB = parseInt(b.cells[6].innerText, 10);
+      return scoreB - scoreA; // Descending order
+    });
+  };
+
+  // Function to render sorted/filtered rows
+  const renderLeaderboard = (rows) => {
+    const leaderboardBody = document.getElementById("leaderboard-body");
+    leaderboardBody.innerHTML = ""; // Clear the leaderboard body
+    rows.forEach((row) => leaderboardBody.appendChild(row)); // Append rows
+  };
+
+  // Initial sorting and rendering in descending order
+  leaderboardRows = sortRowsByScore(leaderboardRows);
+  renderLeaderboard(leaderboardRows);
 
   // Filter by Category
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const category = button.getAttribute("data-category");
-      
+
       // Set active button
       filterButtons.forEach((btn) => btn.classList.remove("active"));
       button.classList.add("active");
 
-      // Filter rows
-      leaderboardRows.forEach((row) => {
+      // Filter rows by category
+      const filteredRows = leaderboardRows.filter((row) => {
         const rowCategory = row.getAttribute("data-category");
-        if (category === "all" || rowCategory === category) {
-          row.style.display = ""; // Show row
-        } else {
-          row.style.display = "none"; // Hide row
-        }
+        return category === "all" || rowCategory === category;
       });
+
+      renderLeaderboard(filteredRows);
     });
   });
 
@@ -63,13 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener("input", () => {
     const searchQuery = searchInput.value.toLowerCase();
 
-    leaderboardRows.forEach((row) => {
-      const rowName = row.getAttribute("data-name");
-      if (rowName.includes(searchQuery)) {
-        row.style.display = ""; // Show row
-      } else {
-        row.style.display = "none"; // Hide row
-      }
+    const filteredRows = leaderboardRows.filter((row) => {
+      const rowName = row.getAttribute("data-name").toLowerCase();
+      return rowName.includes(searchQuery);
     });
+
+    renderLeaderboard(filteredRows);
   });
 });
