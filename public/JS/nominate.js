@@ -20,7 +20,7 @@ const nominateYourselfCard = document.getElementById('pop-nominateYourself');
 
 // Add click event listener
 nominateYourselfCard.addEventListener('click', () => {
-    window.location.href = '/nominateyourself'; // Redirect to the desired route
+    window.location.href = '/nominateyourself'; 
 });
 
 // Get the 'Nominate Someone Else' card
@@ -28,7 +28,7 @@ const nominateSomeoneElseCard = document.getElementById('pop-nominateSomeoneElse
 
 // Add click event listener
 nominateSomeoneElseCard.addEventListener('click', () => {
-    window.location.href = '/nominatesomeoneelse'; // Redirect to the desired route
+    window.location.href = '/nominatesomeoneelse'; 
 });
 
 //------------------------------leaderboard-----------------------------------------------
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to sort rows by total score (descending order)
   const sortRowsByScore = (rows) => {
     return rows.sort((a, b) => {
-      const scoreA = parseInt(a.cells[6].innerText, 10); // Total Score column index
+      const scoreA = parseInt(a.cells[6].innerText, 10); 
       const scoreB = parseInt(b.cells[6].innerText, 10);
       return scoreB - scoreA; // Descending order
     });
@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to render sorted/filtered rows
   const renderLeaderboard = (rows) => {
     const leaderboardBody = document.getElementById("leaderboard-body");
-    leaderboardBody.innerHTML = ""; // Clear the leaderboard body
-    rows.forEach((row) => leaderboardBody.appendChild(row)); // Append rows
+    leaderboardBody.innerHTML = ""; 
+    rows.forEach((row) => leaderboardBody.appendChild(row)); 
   };
 
   // Initial sorting and rendering in descending order

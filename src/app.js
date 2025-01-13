@@ -7,10 +7,12 @@ const path = require("path")
 app.set("view engine", "ejs");
 app.set("views",path.join(__dirname,"../views"))
 app.use(express.static(path.join(__dirname,"../public")))
-//app.set('layout', 'layouts/boilerplate'); //deep 
+
+//---------------------------------//Error Handling class-----------------------------------
+const wrapAsync = require("../utils/wrapAsync.js");
+const ExpressError=require("../utils/ExpressError.js");
 
 //--------------------------------Requiring MongooseDB------------------------------------
-const EmployeeData = require("../DB_Models/db.js")
 const juryData = require("../DB_Models/jury.js")
 const nominateData=require("../DB_Models/nominate.js")
 const GoogleProfile=require("../DB_Models/GoogleProfile.js")
@@ -26,7 +28,7 @@ const passport = require("passport");
 const session = require("express-session");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
-// Middleware for session handling
+//---------------------------------- Middleware for session handling-----------------------
 app.use(
     session({
         secret: "secret",
@@ -39,7 +41,7 @@ function isAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/auth/google'); // Redirect to login if not authenticated
+    res.redirect('/auth/google'); 
 }
 
 function isAdmin(req, res, next) {
@@ -63,7 +65,6 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                // Save the Google profile data to the database
                 const existingProfile = await GoogleProfile.findOne({ id: profile.id });
                 if (!existingProfile) {
                   const newProfile = new GoogleProfile({
@@ -87,16 +88,14 @@ passport.use(
           )
         );
 
-// Serialize and deserialize user
 passport.serializeUser((user, done) => {
-    // Make sure isAdmin is included in the serialized user data
     done(null, { id: user.id, isAdmin: user.isAdmin });
 });
 
 passport.deserializeUser(async (user, done) => {
     try {
         const profile = await GoogleProfile.findOne({ id: user.id });
-        done(null, profile); // This ensures the profile includes the isAdmin field
+        done(null, profile); 
     } catch (error) {
         done(error, null);
     }
@@ -116,7 +115,7 @@ app.get(
     "/auth/google/callback",
     passport.authenticate("google", { failureRedirect: "/auth" }),
     (req, res) => {
-        res.redirect("/"); // Redirect to profile on successful login
+        res.redirect("/"); 
     }
 );
 
@@ -125,9 +124,8 @@ app.get("/profile", async(req, res) => {
     if (!req.isAuthenticated()) {
         return res.redirect('/auth');
       }
-      res.json(req.user); // Send the user data saved in MongoDB
-
-    res.redirect("/"); // Safely access displayName
+      res.json(req.user); 
+    res.redirect("/"); 
 });
 
 app.get("/logout", (req, res, next) => {
@@ -141,12 +139,10 @@ app.get("/logout", (req, res, next) => {
 app.listen(port, ()=>{
     console.log(`App is listening on port ${port}.....`);
 })
-
 //--------------------------------Routing------------------------------------
 //--------------------------------Admin Control Panel Route-------------------------------------
 app.get('/admin', isAdmin, async (req, res) => {
-    console.log('User:', req.user);  // Log the user object to ensure isAdmin is true
-
+    console.log('User:', req.user);  
     const nominations = await nominateData.find();
     const jury = await juryData.find();
     const employees = await EmployeeData.find();
@@ -175,25 +171,20 @@ app.post('/admin/editNomination/:id', isAdmin, async (req, res) => {
 
 //---->HomePage Route 
 app.get("/", async (req, res) => {
-    let data = await EmployeeData.find();
     let nominate = await nominateData.find();
-    let userName = req.isAuthenticated() ? req.user.displayName : null; // Get the user's name
+    let userName = req.isAuthenticated() ? req.user.displayName : null; 
     let userId = req.isAuthenticated() ? req.user.id : null;
-    res.render("routes/home.ejs", { data, nominate, userName, userId });
+    res.render("routes/home.ejs", { nominate, userName, userId });
 });
 //----> Vote Route
 app.post('/vote/:_id', isAuthenticated, async (req, res) => {
     try {
         const { _id } = req.params;
-        const userId = req.user.id; // Use the authenticated user's ID
-
+        const userId = req.user.id; 
         const nominee = await nominateData.findById(_id);
-
         if (nominee.votedBy.includes(userId)) {
             return res.status(400).json({ success: false, message: "You have already voted for this nominee." });
         }
-
-        // Increment the vote count and add the user to votedBy
         nominee.votes += 1;
         nominee.votedBy.push(userId);
 
@@ -213,14 +204,12 @@ app.get("/leaderboard", async (req, res) => {
     try {
         let nominate = await nominateData.find();
         const userName = req.user ? req.user.displayName : null;
-        // Sort nominees by total score in descending order
         nominate = nominate.sort((a, b) => {
             const totalScoreA = a.votes + (a.juryVotes || 0);
             const totalScoreB = b.votes + (b.juryVotes || 0);
             return totalScoreB - totalScoreA;
         });
 
-        // Assign ranks only to the top 3
         nominate = nominate.map((nominee, index) => {
             nominee.rankIcon =
                 index === 0
@@ -229,7 +218,7 @@ app.get("/leaderboard", async (req, res) => {
                     ? "🥈"
                     : index === 2
                     ? "🥉"
-                    : ""; // No prize for ranks beyond 3
+                    : ""; 
             return nominee;
         });
 
@@ -296,26 +285,30 @@ app.get("/nominatesomeoneelse",(req,res)=>{
     res.render("./pages/nominatesomeoneelse",{userName})
 })
 
-
 //---------------------------Search Route-------------------------------------
-// Search API for live search functionality
 app.get('/search', async (req, res) => {
     try {
-        const { query } = req.query; // Get the search term from the request
-
-        // Query the database for employees whose full name matches the search term
+        const { query } = req.query; 
         const results = await nominateData.find({
-            fullName: { $regex: query, $options: 'i' }, // Case-insensitive search
+            fullName: { $regex: query, $options: 'i' }, 
         });
 
-        res.status(200).json(results); // Return matching results as JSON
+        res.status(200).json(results); 
     } catch (error) {
         console.error('Error fetching search results:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
+app.all("*",(req,res,next)=>{
+    next(new ExpressError(404,"Page not found !...."));
+})
 
+app.use((err, req, res, next) => {
+    let{status=500,message="something went wrong "}=err;
+    res.status(status).send(message);
+   
+});
 
 
 

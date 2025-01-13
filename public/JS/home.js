@@ -29,55 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  //----------------------------------------------------------Search------------------------------
-  // document.addEventListener("DOMContentLoaded", () => {
-  //   const searchBar = document.getElementById("search-bar");
-  //   const cards = document.querySelectorAll(".card");
-
-  //   // Event listener for search bar
-  //   searchBar.addEventListener("input", () => {
-  //     const query = searchBar.value.toLowerCase();
-
-  //     cards.forEach(card => {
-  //       const name = card.getAttribute("data-name");
-
-  //       if (name.includes(query)) {
-  //         card.style.display = "block";
-  //       } else {
-  //         card.style.display = "none";
-  //       }
-  //     });
-  //   });
-
-  //   const voteButtons = document.querySelectorAll(".vote-btn");
-
-  //   voteButtons.forEach(button => {
-  //     button.addEventListener("click", () => {
-  //       const id = button.getAttribute("data-id");
-
-  //       fetch(`/vote/${id}`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       })
-  //         .then(response => response.json())
-  //         .then(data => {
-  //           if (data.success) {
-  //             const voteCountElement = document.getElementById(`votes-${id}`);
-  //             voteCountElement.textContent = data.votes;
-  //           } else {
-  //             alert("Failed to update votes. Please try again.");
-  //           }
-  //         })
-  //         .catch(err => {
-  //           console.error("Error updating vote: ", err);
-  //           alert("An error occurred. Please try again.");
-  //         });
-  //     });
-  //   });
-  // });
-
  // DOM Elements
 const searchBar = document.getElementById('search-bar');
 const resultsContainer = document.getElementById('results-container');
@@ -85,22 +36,21 @@ const resultsContainer = document.getElementById('results-container');
 // Prevent form submission on Enter
 const searchForm = document.querySelector('form');
 searchForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault(); 
 });
 
 // Debounce function to delay API calls
 let debounceTimeout;
 searchBar.addEventListener('input', function () {
-    clearTimeout(debounceTimeout); // Clear previous timeout
+    clearTimeout(debounceTimeout); 
     debounceTimeout = setTimeout(() => {
-        fetchSearchResults(searchBar.value.trim()); // Fetch results after delay
-    }, 300); // 300ms delay
+        fetchSearchResults(searchBar.value.trim()); 
+    }, 300); 
 });
 
 // Fetch search results from the backend
 async function fetchSearchResults(query) {
     if (query === '') {
-        // If search is empty, reset to show default nominations
         const response = await fetch(`/search?query=`);
         const results = await response.json();
         updateResults(results);
@@ -110,8 +60,6 @@ async function fetchSearchResults(query) {
     try {
         const response = await fetch(`/search?query=${query}`);
         const results = await response.json();
-
-        // Update the results container with fetched results
         updateResults(results);
     } catch (error) {
         console.error('Error fetching search results:', error);

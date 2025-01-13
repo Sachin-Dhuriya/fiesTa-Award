@@ -23,7 +23,7 @@ const saveStep1Details = () => {
     jobTitle: document.getElementById('jobTitle').value,
     category: document.getElementById('category').value,
   };
-  localStorage.setItem('step1Data', JSON.stringify(formData)); // Save to local storage
+  localStorage.setItem('step1Data', JSON.stringify(formData)); 
 };
 
 // Show custom alert if fields are not filled

@@ -119,12 +119,12 @@ input[type="text"], input[type="email"], input[type="url"], input[type="number"]
 
 /* Style for phone number input specifically */
 input[type="number"] {
-  -moz-appearance: textfield;  /* Firefox: removes the default number input appearance */
+  -moz-appearance: textfield;  
 }
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;  /* Chrome/Safari: removes the spin button */
+  -webkit-appearance: none;  
   margin: 0;
 }
 
