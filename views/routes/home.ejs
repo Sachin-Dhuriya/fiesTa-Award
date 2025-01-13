@@ -29,7 +29,13 @@
             </span>
             <a class="linkedin-link" target="_blank" href="<%= nom.linkedIn %>">LinkedIn Profile</a>
           </button>
-          <button class="vote-btn" data-id="<%= nom._id %>">👍 Vote</button>
+          <% if (nom.votedBy.includes(userId)) { %>
+            <!-- Disable the button if the user has already voted -->
+            <button class="vote-btn" disabled>Voted</button>
+          <% } else { %>
+            <!-- Allow voting if the user has not voted -->
+            <button class="vote-btn" data-id="<%= nom._id %>">👍 Vote</button>
+          <% } %>
         </div>
         <hr>
         <p class="nomination">Nominated by <%= nom.peerFullName %></p>

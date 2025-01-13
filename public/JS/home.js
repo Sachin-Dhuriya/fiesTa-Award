@@ -199,3 +199,40 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  //-------------------------------------One time vote -------------------------------------------
+
+  // JavaScript to handle voting and updating the button dynamically
+  async function vote(nomineeId) {
+    try {
+      const response = await fetch(`/vote/${nomineeId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Update the votes count
+        const votesElement = document.getElementById(`votes-${nomineeId}`);
+        votesElement.textContent = result.votes;
+
+        // Disable the vote button
+        const voteButton = document.querySelector(`button[data-id="${nomineeId}"]`);
+        voteButton.textContent = "Voted";
+        voteButton.disabled = true;
+      } else {
+        alert(result.message || "You have already voted.");
+      }
+    } catch (error) {
+      console.error("Error voting:", error);
+    }
+  }
+
+  // Attach event listeners to all vote buttons
+  document.querySelectorAll(".vote-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const nomineeId = button.getAttribute("data-id");
+      vote(nomineeId);
+    });
+  });

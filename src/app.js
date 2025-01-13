@@ -178,22 +178,34 @@ app.get("/", async (req, res) => {
     let data = await EmployeeData.find();
     let nominate = await nominateData.find();
     let userName = req.isAuthenticated() ? req.user.displayName : null; // Get the user's name
-    res.render("routes/home.ejs", { data, nominate, userName });
+    let userId = req.isAuthenticated() ? req.user.id : null;
+    res.render("routes/home.ejs", { data, nominate, userName, userId });
 });
 //----> Vote Route
 app.post('/vote/:_id', isAuthenticated, async (req, res) => {
     try {
-        let { _id } = req.params;
-        let data = await nominateData.findById(_id);
-        let count = ++data.votes;
-        await nominateData.findByIdAndUpdate(_id, { votes: count });
+        const { _id } = req.params;
+        const userId = req.user.id; // Use the authenticated user's ID
 
-        res.status(200).json({ success: true, votes: count });
+        const nominee = await nominateData.findById(_id);
+
+        if (nominee.votedBy.includes(userId)) {
+            return res.status(400).json({ success: false, message: "You have already voted for this nominee." });
+        }
+
+        // Increment the vote count and add the user to votedBy
+        nominee.votes += 1;
+        nominee.votedBy.push(userId);
+
+        await nominee.save();
+
+        res.status(200).json({ success: true, votes: nominee.votes });
     } catch (error) {
         console.error('Error updating votes: ', error);
         res.status(500).json({ success: false, error: 'Internal Server Error' });
     }
 });
+
 
 
 //--------------------------------Leaderboard Route------------------------------
@@ -228,20 +240,6 @@ app.get("/leaderboard", async (req, res) => {
     }
 });
 
-//----> Vote Route
-app.post("/vote/:_id", async (req, res) => {
-    try {
-        let { _id } = req.params;
-        let data = await nominateData.findById(_id);
-        let count = ++data.votes;
-        await nominateData.findByIdAndUpdate(_id, { votes: count });
-
-        res.status(200).json({ success: true, votes: count });
-    } catch (error) {
-        console.error("Error updating votes: ", error);
-        res.status(500).json({ success: false, error: "Internal Server Error" });
-    }
-});
 //---------------------------------Jury Route---------------------------------------
 
 app.get("/jury", async (req, res) => {

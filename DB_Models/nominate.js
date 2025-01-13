@@ -59,6 +59,9 @@ const nominateSchema = new mongoose.Schema({
         type : Number,
         default : 0,
     },
+    votedBy: {
+         type: [String], default: [] 
+    }, // Store user IDs who voted
     peerFullName : {
         type : String,
         default : "slef",
